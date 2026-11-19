@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Freelance Escrow on QDay Aevum</title>
+<style>
+  body { font-family: system-ui, sans-serif; max-width: 720px; margin: 2rem auto; padding: 0 1rem; color: #1a1a1a; line-height: 1.5; }
+  h1 { font-size: 1.5rem; }
+  h2 { font-size: 1.15rem; margin-top: 2rem; border-top: 1px solid #ddd; padding-top: 1rem; }
+  button { cursor: pointer; padding: 0.45rem 0.9rem; margin: 0.2rem 0.2rem 0.2rem 0; }
+  button:disabled { cursor: default; opacity: 0.5; }
+  input { padding: 0.4rem; margin: 0.2rem 0; width: 100%; box-sizing: border-box; }
+  label { display: block; margin: 0.6rem 0 0.1rem; font-weight: 600; }
+  .card { border: 1px solid #ddd; border-radius: 6px; padding: 0.8rem 1rem; margin: 0.8rem 0; }
+  .card p { margin: 0.25rem 0; }
+  .mono { font-family: monospace; font-size: 0.85rem; word-break: break-all; }
+  #status { background: #f6f6f6; border-radius: 6px; padding: 0.8rem 1rem; min-height: 1.5rem; white-space: pre-wrap; }
+  .muted { color: #666; }
+  .warn { color: #8a4b00; }
+</style>
+</head>
+<body>
+<h1>Freelance Escrow</h1>
+<p>Pay a freelancer in tUSD8 on the QDay Aevum testnet. The client locks
+the payment in escrow, the freelancer delivers, the client approves, and
+the payment releases. If the deadline passes with no delivery, the client
+gets the funds back.</p>
+
+<h2>Wallet</h2>
+<p>
+  <button id="connectBtn">Connect wallet</button>
+  <button id="networkBtn" disabled>Add QDay Aevum to wallet</button>
+</p>
+<p id="accountLine" class="muted">Not connected.</p>
+<p id="balanceLine" class="muted"></p>
+
+<h2>Escrow contract</h2>
+<label for="escrowInput">Contract address</label>
+<input id="escrowInput" type="text" spellcheck="false" placeholder="0x...">
+<p class="muted">Paste the deployed FreelanceEscrow address. It is filled in
+from the project config when the deploy step has been done.</p>
+<p><button id="refreshBtn" disabled>Refresh invoices</button></p>
+
+<h2>New invoice</h2>
+<label for="freelancerInput">Freelancer address</label>
+<input id="freelancerInput" type="text" spellcheck="false" placeholder="0x...">
+<label for="amountInput">Amount in tUSD8</label>
+<input id="amountInput" type="text" inputmode="decimal" placeholder="250">
+<label for="deadlineInput">Deadline</label>
+<input id="deadlineInput" type="datetime-local">
+<p><button id="createBtn" disabled>Create invoice and lock funds</button></p>
+<p class="muted">Creating an invoice sends two transactions: first an approval
+for the escrow contract to move your tUSD8, then the invoice itself.</p>
+
+<h2>Invoices</h2>
+<div id="invoiceList"><p class="muted">Connect a wallet and set the contract address to list invoices.</p></div>
+
+<h2>Status</h2>
+<p id="status">Idle.</p>
+
+<script type="module" src="./app.js"></script>
+</body>
+</html>
